@@ -68,7 +68,9 @@ function shift(items) {
   for(var i = 1; i < items.length;i++) {
     items[i-1] = items[i];
   }
-  items.pop();
+  if( items.length != 0) {
+      items.length -= i;
+  }
   return removed;
 }
 console.log(shift(arr1));
