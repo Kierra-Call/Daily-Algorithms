@@ -141,6 +141,7 @@ class SinglyLinkedList {
         const newHead = new ListNode(data);
         newHead.next = this.head;
         this.head = newHead;
+        return this;
     }
 
     /**
@@ -150,7 +151,9 @@ class SinglyLinkedList {
      * @returns {any} The data from the removed node.
      */
     removeHead() {
+        const oldHead = this.head;
         this.head = this.head.next;
+        return oldHead.data;
     }
 
     /**
