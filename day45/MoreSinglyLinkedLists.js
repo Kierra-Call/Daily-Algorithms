@@ -174,17 +174,160 @@ class SinglyLinkedList {
         }
         return sum / count;
     }
+    /**
+     * Removes the last node of this list.
+     * - Time: O(n) linear, n = length of list.
+     * - Space: O(1) constant.
+     * @returns {any} The data from the node that was removed.
+     */
+    removeBack() {
+        // Your code here!
+        // Note: Be sure to handle any edge cases and to return the data of the node we've removed.
+        //start by creating a runner to find the tail of the list
+        if (this.isEmpty()) {
+            return null;
+        }
+        if (this.head.next == null) {
+            return this.removeHead();
+        }
+        let runner = this.head;
+
+        while (runner.next.next != null) {
+            runner = runner.next;
+        }
+        let removedData = runner.next;
+        runner.next = null;
+        return removedData.data;
+    }
+
+    /**
+     * Determines whether or not the given search value exists in this list.
+     * - Time: O(n) linear, n = length of list.
+     * - Space: O(1) constant.
+     * @param {any} val The data to search for in the nodes of this list.
+     * @returns {boolean}
+     */
+    contains(val) {
+        // Your code here!
+        let runner = this.head;
+        while (runner) {
+            if (runner.data == val) {
+                return true;
+            }
+            runner = runner.next;
+        }
+        return false;
+    }
+
+    /**
+     * Determines whether or not the given search value exists in this list.
+     * - Time: O(n) linear, n = length of list.
+     * - Space: O(n) linear due to the call stack.
+     * @param {any} val The data to search for in the nodes of this list.
+     * @param {?node} current The current node during the traversal of this list
+     *    or null when the end of the list has been reached.
+     * @returns {boolean}
+     */
+    containsRecursive(val, current = this.head) {
+        // Your code here!
+        if (current == null) {
+            return false;
+        }
+        if (current.data == val) {
+            return true;
+        }
+
+        return this.containsRecursive(val, current.next);
+    }
+    /**
+     * Retrieves the data of the second to last node in this list.
+     * - Time: O(?).
+     * - Space: O(?).
+     * @returns {any} The data of the second to last node or null if there is no
+     *    second to last node.
+     */
+    secondToLast() {
+        if (this.isEmpty()) {
+            return null
+        }
+        if (this.head.next == null) {
+            return null
+        } 
+        let runner = this.head;
+
+        while (runner.next.next != null) {
+            runner = runner.next
+        }
+        return runner.data
+    }
+
+    /**
+     * Removes the node that has the matching given val as it's data.
+     * - Time: O(?).
+     * - Space: O(?).
+     * @param {any} val The value to compare to the node's data to find the
+     *    node to be removed.
+     * @returns {boolean} Indicates if a node was removed or not.
+     */
+    removeVal(val) {
+        if (val == this.head.data) {
+            this.removeHead();
+            return true
+        }
+        let runner = this.head
+        while (runner.next !== null) {
+            if (runner.next.data == val){
+                runner.next = runner.next.next
+                return true
+            }
+            runner = runner.next
+        }
+        return false
+    }
+
+    // EXTRA
+    /**
+     * Inserts a new node before a node that has the given value as its data.
+     * - Time: O(?).
+     * - Space: O(?).
+     * @param {any} newVal The value to use for the new node that is being added.
+     * @param {any} targetVal The value to use to find the node that the newVal
+     *    should be inserted in front of.
+     * @returns {boolean} To indicate whether the node was pre-pended or not.
+     */
+    prepend(newVal, targetVal) {
+        if (this.isEmpty()) {
+            return false
+        }
+        if (newVal == this.head.data) {
+            this.insertAtFront(targetVal);
+        }
+        let runner = this.head
+        while (runner.next !== null) {
+            if (runner.next.data == targetVal) {
+                const newNode = new ListNode(newVal)
+                newNode.next = runner.next
+                runner.next = newNode
+                return true
+            }
+            runner = runner.next
+        }
+        return false
+    }
 }
 
 // *******************************************************************
 // Test Code Here ~ ☕
-
 const list = new SinglyLinkedList();
 
 list.insertAtBackMany([1,2,3,4,5])
+// console.log(list.toArr())
+// list.removeHead()
+// console.log(list.toArr())
+// list.insertAtFront(9)
 console.log(list.toArr())
-list.removeHead()
+// console.log(list.average())
+console.log(list.removeVal(4))
 console.log(list.toArr())
-list.insertAtFront(9)
-console.log(list.toArr())
-console.log(list.average())
+console.log(list.prepend(9, 3))
+
