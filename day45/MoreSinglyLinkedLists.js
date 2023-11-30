@@ -247,12 +247,9 @@ class SinglyLinkedList {
      *    second to last node.
      */
     secondToLast() {
-        if (this.isEmpty()) {
+        if (this.isEmpty() || this.head.next == null) {
             return null
         }
-        if (this.head.next == null) {
-            return null
-        } 
         let runner = this.head;
 
         while (runner.next.next != null) {
