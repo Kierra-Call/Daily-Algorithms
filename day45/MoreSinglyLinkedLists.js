@@ -311,20 +311,102 @@ class SinglyLinkedList {
         }
         return false
     }
+       /**
+ * Concatenates the nodes of a given list onto the back of this list.
+ * - Time: O(n) n = "this" list length -> O(n) linear.
+ *    addList does not need to be looped over.
+ * - Space: O(1) constant, although this list grows by addList's length,
+ *    our algo doesn't create extra objects or arrays to take up more space.
+ * @param {SinglyLinkedList} addList An instance of a different list whose
+ *    whose nodes will be added to the back of this list.
+ * @returns {SinglyLinkedList} This list with the added nodes.
+ */
+       concat(addList) {
+        if (addList.isEmpty()) {
+            return this;
+        }
+        let runner = addList.head;
+        while (runner !== null) {
+            this.insertAtBack(runner.data);
+            runner = runner.next
+        }
+        return this;
+
+
+        // Your Code Here
+        // Note: The List we're adding is another Singly Linked List that will be attached to the end of our original SLL. 
+    }
+
+    /**
+ * Finds the node with the smallest number as data and moves it to the front
+ * of this list.
+ * - Time: O(2n) n = list length -> O(n) linear,
+ *    2nd loop could go to end if min is at end.
+ * - Space: O(1) constant.
+ * @returns {SinglyLinkedList} This list.
+ */
+    moveMinFront() {
+        let min = this.head;
+        let runner = this.head;
+        while (runner !== null) {
+            if (runner.data < min.data) {
+                min = runner;
+            }
+            runner = runner.next;
+        }
+        if (this.head == min) {
+            return this;
+        }
+        this.removeVal(min.data);
+        this.insertAtFront(min.data);
+        return this;
+        // Your Code Here
+        // Hint: When looking for our min, we want to be sure we're moving the node and not just the data.
+        // Note: Regarding edge cases, we want to check if the min value is already the head. Then we'll just want our original list returned.
+    }
+
+
+    // EXTRA
+    /**
+ * Splits this list into two lists where the 2nd list starts with the node
+ * that has the given value.
+ * splitOnVal(5) for the list (1=>3=>5=>2=>4) will change list to (1=>3),
+ * and the return value will be a new list containing (5=>2=>4)
+ * - Time: O(n) linear, n = list length, could split on last node.
+ * - Space: O(1) constant.
+ * @param {any} val The value in the node that the list should be split on.
+ * @returns {SinglyLinkedList} The split list containing the nodes that are
+ *    no longer in this list.
+ */
+    splitOnVal(val) {
+        // Your Code Here
+        // Search for a particular value, then take that node + other nodes ahead of it to be a new SLL.
+    }
 }
 
 // *******************************************************************
 // Test Code Here ~ ☕
 const list = new SinglyLinkedList();
 
-list.insertAtBackMany([1,2,3,4,5])
+// list.insertAtBackMany([1,2,3,4,5])
+// // console.log(list.toArr())
+// // list.removeHead()
+// // console.log(list.toArr())
+// // list.insertAtFront(9)
 // console.log(list.toArr())
-// list.removeHead()
+// // console.log(list.average())
+// console.log(list.removeVal(4))
 // console.log(list.toArr())
-// list.insertAtFront(9)
-console.log(list.toArr())
-// console.log(list.average())
-console.log(list.removeVal(4))
-console.log(list.toArr())
-console.log(list.prepend(9, 3))
+// console.log(list.prepend(9, 3))
+// const list = new SinglyLinkedList()
+const list2 = new SinglyLinkedList()
 
+list.insertAtBackMany([1,2,3,4,5])
+list2.insertAtBackMany([15,11,12,13,14])
+console.log(list.toArr())
+
+list.concat(list2)
+console.log(list.toArr())
+
+list2.moveMinFront()
+console.log(list2.toArr())
