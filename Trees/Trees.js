@@ -301,9 +301,15 @@ class BSTNode {
      * @returns {Array<number>} The vals in DFS Preorder once all nodes visited.
      */
     toArrInorder(node = this.root, vals = []) {
-        
-
-    }
+      // Your code here
+      // Hint: Note the Inorder description. We'll want: Left, CurrNode, then Right.
+      if (node) {
+          this.toArrInorder(node.left, vals)
+          vals.push(node.data)
+          this.toArrInorder(node.right, vals)
+      }
+      return vals
+  }
 
     /**
      * DFS Postorder (Left, Right, CurrNode)
@@ -315,8 +321,56 @@ class BSTNode {
      * @returns {Array<number>} The vals in DFS Preorder once all nodes visited.
      */
     toArrPostorder(node = this.root, vals = []) {
-        // Your code here 
+      // Your code here 
+      if (node) {
+          this.toArrPostorder(node.left, vals)
+          this.toArrPostorder(node.right, vals)
+          vals.push(node.data)
+      }
+      return vals
+  }
+      /**
+ * Recursively counts the total number of nodes in this tree.
+ * - Time: O(?).
+ * - Space: O(?).
+ * @param {Node} node The current node during the traversal of this tree.
+ * @returns {number} The total number of nodes.
+ */
+      size(node = this.root, count = 0) {
 
+        if (node) {
+          count = this.size(node.left, count)
+          count = this.size(node.right, count)
+          count++
+        }
+        return count;
+        //Your code here
+        // Expected: 15 for the full tree example.
+    }
+
+    count(node = this.root) {
+      return this.toArrPostorder(this.root, []).length
+    }
+
+    /**
+     * Calculates the height of the tree which is based on how many nodes from
+     * top to bottom (whichever side is taller).
+     * - Time: O(?).
+     * - Space: O(?).
+     * @param {Node} node The current node during traversal of this tree.
+     * @returns {number} The height of the tree.
+     */
+    height(node = this.root, height = 0) {
+      if (node) {
+        height ++;
+        let leftHeight = this.height(node.left, height); 
+        let rightHeight = this.height(node.right, height); 
+        if (leftHeight > rightHeight) {
+          return leftHeight;
+        }
+        return rightHeight;
+      }
+      return height;
     }
 }
 const emptyTree = new BinarySearchTree();
@@ -389,3 +443,6 @@ const emptyTree = new BinarySearchTree();
  .insert(66)
  .insert(90);
  console.log(fullTree.toArrPreorder())
+ console.log(fullTree.size())
+ console.log(fullTree.count())
+ console.log(fullTree.height())
